@@ -1,0 +1,12 @@
+﻿<Application x:Class="DictionarySuggestDemo.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:DictionarySuggestDemo.ViewModels"
+             xmlns:vw="clr-namespace:DictionarySuggestDemo.Views"
+             Startup="OnStartup">
+    <Application.Resources>
+        <DataTemplate DataType="{x:Type vm:SearchViewModel}">
+            <vw:SearchView />
+        </DataTemplate>
+    </Application.Resources>
+</Application>
