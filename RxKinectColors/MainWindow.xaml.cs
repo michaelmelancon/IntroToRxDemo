@@ -2,15 +2,15 @@
 // http://channel9.msdn.com/Events/TechEd/NorthAmerica/2013/DEV-B305
 // Original source: http://video.ch9.ms/sessions/teched/na/2013/DEVB305_BuildingAppsWithKinect.zip
 // Modifications by Donna Malayeri
+// Additional Mods by Michael Melancon
 
-using Microsoft.Kinect;
 using System;
 using System.Linq;
-using System.Windows;
-
-using System.Reactive.Linq;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Windows;
 using Coding4Fun.Toolkit.Controls.Common;
+using Microsoft.Kinect;
 
 namespace RxKinect
 {
@@ -20,8 +20,7 @@ namespace RxKinect
 
         KinectSensor _kinect = null;
 
-        private IDisposable _colorFrameSubscription = Disposable.Empty;
-        private IDisposable _skeletonSubscription = Disposable.Empty;
+        private IDisposable _subscriptions = Disposable.Empty;
 
         public MainWindow()
         {
@@ -39,27 +38,14 @@ namespace RxKinect
 
                 _coorMapper = new CoordinateMapper(_kinect);
 
-                _colorFrameSubscription = SubscribeToColorFrame(_kinect);
-
-                var joints = GetJointsObservable(_kinect);
-                _skeletonSubscription = SubscribeToSkeleton(joints);
+                _subscriptions = new CompositeDisposable(
+                    SubscribeToColorFrame(_kinect),
+                    SubscribeToSkeleton(GetJointsObservable(_kinect)),
+                    _kinect);
 
                 _kinect.Start();
             }
         }
-
-        #region Cleanup
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            if (_kinect != null)
-            {
-                _kinect.Stop();
-                _colorFrameSubscription.Dispose();
-                _skeletonSubscription.Dispose();
-            }
-        }
-        #endregion
-
 
         private IObservable<JointCollection> GetJointsObservable(KinectSensor kinect)
         {
@@ -105,11 +91,11 @@ namespace RxKinect
 
             var rightHandSub =
                 rightHand.Subscribe(
-                   joint =>
-                   {
-                       ScalePosition(_rightEllipse, joint); // scale relative to the UI so that user doesn't have to make big movements
-                       CheckForNewColor(_rightEllipse);
-                   });
+                    joint =>
+                    {
+                        ScalePosition(_rightEllipse, joint); // scale relative to the UI so that user doesn't have to make big movements
+                        CheckForNewColor(_rightEllipse);
+                    });
 
 
             var leftHandSub =
@@ -121,29 +107,34 @@ namespace RxKinect
 
             // Detect hand motion left/right
             //
-            var relPos = (from joint in joints
-                          let delta = joint[JointType.HandLeft].Position.X - joint[JointType.ElbowLeft].Position.X
-                          where Math.Abs(delta) > 0.05
-                          select delta < 0 ? "Left" : "Right")
-                         .DistinctUntilChanged();
+            var moves = 
+                (
+                    from joint in joints
+                    let delta = joint[JointType.HandLeft].Position.X - joint[JointType.ElbowLeft].Position.X
+                    where Math.Abs(delta) > 0.05
+                    select delta < 0 ? "Left" : "Right")
+                .DistinctUntilChanged();
 
-            var relPosSub = relPos.Subscribe(SetInfoText);
-            subscriptions.Add(relPosSub);
-
-            // Detect hand wave (at least 3 moves in 3 seconds)
+            // Detect hand wave (at least 4 moves in 2 seconds)
             //
-            var wave = from moves in relPos.Buffer(TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(500))
-                       where moves.Count >= 3
-                       select true;
+            var gestures = 
+                (
+                    from moveBuffer in moves.Buffer(TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(100))
+                    select moveBuffer.Count >= 4 ? "WAVE!" : moves.LastOrDefault()).DistinctUntilChanged();
 
-            var waveSub =
-               wave
-               .ObserveOnDispatcher()
-               .Subscribe(_ => OnNextWave());
+            var gesuresSub = gestures.ObserveOnDispatcher()
+                .Subscribe(OnGesture);
 
-            subscriptions.Add(waveSub);
+            subscriptions.Add(gesuresSub);
 
             return subscriptions;
+        }
+
+        private void OnGesture(string move)
+        {
+            _infoBox.Text = move;
+            if (move == "WAVE!")
+                HueLightingWrapper.SetHue(_currentColor);
         }
 
         #region Set up video image from Kinect
@@ -161,11 +152,12 @@ namespace RxKinect
         }
         #endregion
 
-
-        private void OnNextWave()
+        #region Cleanup
+        private void Window_Closed(object sender, EventArgs e)
         {
-            _infoBox.Text += " WAVE!";
-            HueLightingWrapper.SetHue(_currentColor);
+            _subscriptions.Dispose();
+            HueLightingWrapper.TurnOff();
         }
+        #endregion
     }
 }

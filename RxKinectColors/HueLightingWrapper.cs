@@ -2,6 +2,7 @@
 // http://channel9.msdn.com/Events/TechEd/NorthAmerica/2013/DEV-B305
 // Original source: http://video.ch9.ms/sessions/teched/na/2013/DEVB305_BuildingAppsWithKinect.zip
 // Modifications by Donna Malayeri (@lindydonna)
+// Additional Modifications by Michael Melancon (@michaelmelancon)
 
 using Newtonsoft.Json;
 using System;
@@ -50,6 +51,34 @@ namespace Coding4Fun.Toolkit.Controls.Common
 
                     // Invoke the PUT method to set the state of the bulb
                     client.UploadStringAsync(uri, "PUT", jsonObj, color);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public static void TurnOff()
+        {
+            try
+            {
+                var state = new { on = false, };
+
+                // convert it to json:
+                var jsonObj = JsonConvert.SerializeObject(state);
+
+                for (int i = 1; i <= TOTAL_BULBS; i++)
+                {
+                    // set the api url to set the state
+                    var uri = new Uri(string.Format("http://{0}/api/{1}/lights/{2}/state", HUE_LIGHT_IP, HUE_LIGHT_USERNAME, i));
+
+                    var client = new WebClient();
+
+                    client.UploadStringCompleted += client_UploadStringCompleted;
+
+                    // Invoke the PUT method to set the state of the bulb
+                    client.UploadString(uri, "PUT", jsonObj);
                 }
             }
             catch (Exception ex)
