@@ -120,7 +120,7 @@ namespace RxKinect
             var gestures = 
                 (
                     from moveBuffer in moves.Buffer(TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(100))
-                    select moveBuffer.Count >= 4 ? "WAVE!" : moves.LastOrDefault()).DistinctUntilChanged();
+                    select moveBuffer.Count >= 4 ? "WAVE!" : moveBuffer.LastOrDefault()).DistinctUntilChanged();
 
             var gesuresSub = gestures.ObserveOnDispatcher()
                 .Subscribe(OnGesture);
