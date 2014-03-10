@@ -10,6 +10,8 @@ michaelmelancon (GitHub/Bitbucket)
 
 ### Kinect/Hue Colors
 
+This demo requires the Kinect for Windows SDK which is a free download from Microsoft.
+
 ### TestScheduler
 
 ### Domain Events  
