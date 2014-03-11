@@ -117,10 +117,9 @@ namespace RxKinect
 
             // Detect hand wave (at least 4 moves in 2 seconds)
             //
-            var gestures = 
-                (
-                    from moveBuffer in moves.Buffer(TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(100))
-                    select moveBuffer.Count >= 4 ? "WAVE!" : moveBuffer.LastOrDefault()).DistinctUntilChanged();
+            var gestures = moves.Buffer(TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(100))
+                    .Select(moveBuffer => moveBuffer.Count >= 4 ? "WAVE!" : moveBuffer.LastOrDefault())
+                    .DistinctUntilChanged();
 
             var gesuresSub = gestures.ObserveOnDispatcher()
                 .Subscribe(OnGesture);
