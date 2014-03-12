@@ -3,16 +3,14 @@
 // Original source: http://video.ch9.ms/sessions/teched/na/2013/DEVB305_BuildingAppsWithKinect.zip
 // Modifications by Donna Malayeri (@lindydonna)
 
-using Microsoft.Kinect;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
-
-using Coding4Fun.Toolkit.Controls.Common;
-using Coding4Fun.Kinect.Wpf;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using Coding4Fun.Kinect.Wpf;
+using Microsoft.Kinect;
 
 namespace RxKinect
 {

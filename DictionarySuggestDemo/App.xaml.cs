@@ -1,5 +1,5 @@
-﻿using DictionarySuggestDemo.Models;
-using System.Windows;
+﻿using System.Windows;
+using DictionarySuggestDemo.Models;
 
 namespace DictionarySuggestDemo
 {

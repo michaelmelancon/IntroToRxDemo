@@ -1,11 +1,10 @@
-﻿using DictionarySuggestDemo.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Observable.Aliases;
 using System.Threading.Tasks;
+using DictionarySuggestDemo.Models;
 
 namespace DictionarySuggestDemo.ViewModels
 {

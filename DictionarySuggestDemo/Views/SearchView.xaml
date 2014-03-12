@@ -9,7 +9,7 @@
         <Label>Start Typing</Label>
         <TextBox Name="PART_SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
         <Popup IsOpen="{Binding HasSuggestions}" PlacementTarget="{Binding ElementName=PART_SearchBox}">
-            <ListBox ItemsSource="{Binding Suggestions}" />
+            <ListBox ItemsSource="{Binding Suggestions}" SelectedItem="{Binding ElementName=PART_SearchBox, Path=Text, Mode=OneWayToSource}" />
         </Popup>
     </StackPanel>
 </UserControl>

@@ -87,8 +87,6 @@
     </ApplicationDefinition>
     <Compile Include="Models\ISuggestService.cs" />
     <Compile Include="Models\WikipediaSuggestService.cs" />
-    <Compile Include="Observable.Aliases\Observable.Aliases.cs" />
-    <Compile Include="Observable.Aliases\Qbservable.Aliases.Generated.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
