@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ISchedulerProvider.cs" />
     <Compile Include="Models\ISuggestService.cs" />
     <Compile Include="Models\WikipediaSuggestService.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />

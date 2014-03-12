@@ -4,19 +4,18 @@
 // Modifications by Donna Malayeri (@lindydonna)
 // Additional Modifications by Michael Melancon (@michaelmelancon)
 
-using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.Net;
 using System.Windows.Media;
-using System.Windows.Threading;
+using Newtonsoft.Json;
 
 namespace Coding4Fun.Toolkit.Controls.Common
 {
     public static class HueLightingWrapper
     {
         private const int TOTAL_BULBS = 1;  // currently have only 1 bulb set up for demo
-        private const string HUE_LIGHT_IP = "192.168.158.115";
+        private const string HUE_LIGHT_IP = "192.168.0.198";
         private const string HUE_LIGHT_USERNAME = "newdeveloper";
         private static Color lastColor;
 

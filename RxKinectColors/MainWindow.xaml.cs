@@ -44,6 +44,7 @@ namespace RxKinect
                     _kinect);
 
                 _kinect.Start();
+                //_kinect.ElevationAngle = 15;
             }
         }
 

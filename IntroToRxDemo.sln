@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxKinectColors", "RxKinectC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveExample", "InteractiveExample\InteractiveExample.csproj", "{9BB90E90-B9E9-42B1-9CE7-9AC0874C8E2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxTesting", "RxTesting\RxTesting.csproj", "{0FC6B6E0-395B-4E4A-9BF9-F7852FF630E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{9BB90E90-B9E9-42B1-9CE7-9AC0874C8E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BB90E90-B9E9-42B1-9CE7-9AC0874C8E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BB90E90-B9E9-42B1-9CE7-9AC0874C8E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FC6B6E0-395B-4E4A-9BF9-F7852FF630E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FC6B6E0-395B-4E4A-9BF9-F7852FF630E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FC6B6E0-395B-4E4A-9BF9-F7852FF630E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FC6B6E0-395B-4E4A-9BF9-F7852FF630E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

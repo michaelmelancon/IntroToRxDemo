@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DictionarySuggestDemo.Models;
@@ -20,14 +21,14 @@ namespace DictionarySuggestDemo.ViewModels
 
         #endregion
 
-        public SearchViewModel(ISuggestService service)
+        public SearchViewModel(ISuggestService service, ISchedulerProvider schedulers)
         {
             #region SearchTerms
 
-            var searchTerms = Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged")
+            var searchTerms = Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged", schedulers.Default)
                 .Where(e => e.EventArgs.PropertyName == "SearchText")
                 .Select(_ => SearchText ?? string.Empty)
-                .Throttle(TimeSpan.FromSeconds(0.5))
+                .Throttle(TimeSpan.FromSeconds(0.5), schedulers.Default)
                 .DistinctUntilChanged();
 
             #endregion

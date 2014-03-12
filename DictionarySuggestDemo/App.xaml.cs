@@ -16,7 +16,7 @@ namespace DictionarySuggestDemo
                     Width = 500,
                     Height = 300,
                     FontSize = 18,
-                    Content = new ViewModels.SearchViewModel(new WikipediaSuggestService())
+                    Content = new ViewModels.SearchViewModel(new WikipediaSuggestService(), new DefaultSchedulerProvider())
                 };
             MainWindow.Show();
         }
